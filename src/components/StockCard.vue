@@ -27,26 +27,34 @@
 
     <v-card-actions>
       <v-btn
-        v-touch="{
-      //left: () => swipe('Left'),
-    //  right: () => swipe('Right'),
-      up: () => swipe('Up'),
-      down: () => swipe('Down')
-    }"
+        v-show="!showTradeSlider"
+        v-touch="{up: () => swipe('Up'),down: () => swipe('Down')}"
         block
         color="indigo"
-        @click="trade"
       >Swipe Down to buy</v-btn>
     </v-card-actions>
     <v-expand-transition>
       <div v-if="showTradeSlider">
         <v-col class="shrink">
-          <v-subheader class="pl-0">How many stocks do you want ?</v-subheader>
-          <v-slider v-model="slider" :thumb-size="24" thumb-label="always">
-            <template
-              v-slot:thumb-label="{ value }"
-            >{{ satisfactionEmojis[Math.min(Math.floor(value / 10), 9)] }}</template>
-          </v-slider>
+          <v-row>
+            <v-subheader class="pl-0">How many stocks do you want ?</v-subheader>
+          </v-row>
+          <v-row>
+            <v-slider v-model="slider" :thumb-size="24" thumb-label="always">
+              <template
+                v-slot:thumb-label="{ value }"
+              >{{ satisfactionEmojis[Math.min(Math.floor(value / 10), 9)] }}</template>
+            </v-slider>
+          </v-row>
+
+          <v-row>
+            <v-btn
+              v-touch="{up: () => swipe('Up')}"
+              block
+              color="indigo"
+              @click="trade"
+            >Swipe up to submit</v-btn>
+          </v-row>
         </v-col>
       </div>
     </v-expand-transition>

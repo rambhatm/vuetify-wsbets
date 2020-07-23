@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar collapse-on-scroll rounded app color="green accent-3" dark>
+    <v-app-bar app color="green accent-3" dark>
       <div class="d-flex align-center">
         <v-img
           alt="wsb logo"

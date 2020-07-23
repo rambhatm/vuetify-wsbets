@@ -26,8 +26,20 @@
     </v-card-text>
 
     <v-card-actions>
-      <v-btn color="deep-purple lighten-2" text @click="trade">Reserve</v-btn>
+      <v-btn smarr color="primary" @click="trade">Buy</v-btn>
     </v-card-actions>
+    <v-expand-transition>
+      <div v-if="showBuyOptions">
+        <v-col class="shrink">
+          <v-subheader class="pl-0">How many stocks do you want ?</v-subheader>
+          <v-slider v-model="slider" :thumb-size="24" thumb-label="always">
+            <template
+              v-slot:thumb-label="{ value }"
+            >{{ satisfactionEmojis[Math.min(Math.floor(value / 10), 9)] }}</template>
+          </v-slider>
+        </v-col>
+      </div>
+    </v-expand-transition>
   </v-card>
 </template>
 
@@ -42,13 +54,28 @@ export default {
   },
   data() {
     return {
+      satisfactionEmojis: [
+        "😭",
+        "😢",
+        "☹️",
+        "🙁",
+        "😐",
+        "🙂",
+        "😊",
+        "😁",
+        "😄",
+        "😍"
+      ],
       loading: false,
-      selection: 1
+      selection: 1,
+      slider: 0,
+      showBuyOptions: false
     };
   },
   methods: {
     trade() {
       this.loading = true;
+      this.showBuyOptions = !this.showBuyOptions;
       setTimeout(() => (this.loading = false), 2000);
     }
   }

@@ -1,8 +1,8 @@
 <template>
   <v-card :loading="loading" class="mx-auto my-12" max-width="374">
-    <v-img height="250" :src="stock.Image"></v-img>
+    <v-img height="150" :src="stock.Image"></v-img>
 
-    <v-card-title>{{stock.Symbol}}</v-card-title>
+    <v-card-title class="text-uppercase">{{stock.Symbol}}</v-card-title>
 
     <v-card-text>
       <div class="my-4 subtitle-4">{{stock.Name}}</div>
@@ -26,10 +26,20 @@
     </v-card-text>
 
     <v-card-actions>
-      <v-btn smarr color="primary" @click="trade">Buy</v-btn>
+      <v-btn
+        v-touch="{
+      //left: () => swipe('Left'),
+    //  right: () => swipe('Right'),
+      up: () => swipe('Up'),
+      down: () => swipe('Down')
+    }"
+        block
+        color="indigo"
+        @click="trade"
+      >Swipe Down to buy</v-btn>
     </v-card-actions>
     <v-expand-transition>
-      <div v-if="showBuyOptions">
+      <div v-if="showTradeSlider">
         <v-col class="shrink">
           <v-subheader class="pl-0">How many stocks do you want ?</v-subheader>
           <v-slider v-model="slider" :thumb-size="24" thumb-label="always">
@@ -54,6 +64,7 @@ export default {
   },
   data() {
     return {
+      swipeDirection: "None",
       satisfactionEmojis: [
         "😭",
         "😢",
@@ -72,11 +83,19 @@ export default {
       showBuyOptions: false
     };
   },
+  computed: {
+    showTradeSlider() {
+      return this.swipeDirection == "Down";
+    }
+  },
   methods: {
     trade() {
       this.loading = true;
       this.showBuyOptions = !this.showBuyOptions;
       setTimeout(() => (this.loading = false), 2000);
+    },
+    swipe(direction) {
+      this.swipeDirection = direction;
     }
   }
 };
